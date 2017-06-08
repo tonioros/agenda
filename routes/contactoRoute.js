@@ -19,14 +19,13 @@ router.get('/api/contacto/:idContacto',
       if(typeof resultados !== undefined) {
         res.json(resultados);
       } else {
-        res.json({"Mensaje": "No hay contactos"});
+        res.json({"Mensaje": false});
       }
   });
 });
 
 router.post('/api/contacto', function(req, res) {
   var data = {
-    idContacto : null,
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     direccion: req.body.direccion,
@@ -36,9 +35,9 @@ router.post('/api/contacto', function(req, res) {
   }
   contacto.insert(data, function(err, resultado) {
     if(resultado && resultado.insertId > 0) {
-      res.redirect('/api/contacto');
+      res.json({Mensaje: true})
     } else {
-      res.json({"Mensaje": "No se ingreso la contacto"});
+      res.json({"Mensaje": false});
     }
   });
 });
@@ -55,12 +54,12 @@ router.put('/api/contacto/:idContacto', function(req, res) {
     idCategoria: req.body.idCategoria
   }
 
-  if(idContacto === data.idContacto) {
+  if(idContacto === data.idContacto){
     contacto.update(data, function(err, resultado) {
       if(resultado !== undefined) {
-        res.json(resultado);
+         res.json({Mensaje: true})
       } else {
-        res.json({"Mensaje": "No se modifico la contacto"});
+          res.json({Mensaje: false})
       }
     });
   } else {
@@ -73,9 +72,9 @@ router.delete('/api/contacto/:idContacto', function(req, res) {
 
     contacto.delete(idContacto, function(error, resultado){
       if(resultado && resultado.Mensaje === "Eliminado") {
-        res.redirect("/api/contacto");
+         res.json({Mensaje: true})
       } else {
-        res.json({"Mensaje": "No se puede eliminar"});
+         res.json({Mensaje: false})
       }
   });
 });

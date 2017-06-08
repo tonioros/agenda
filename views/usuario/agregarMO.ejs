@@ -1,0 +1,27 @@
+<div class="modal fade" id="agregarUSMO" tabindex="-1" role="dialog" aria-labelledby="agregarUSMO" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar</h5>
+        <button type="button" class="close" id="closeAGUSMO" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form ng-submit="agregarUS()">
+      <div class="modal-body">
+        <input type="text" class="form-control" style="margin: 3px 10px" ng-model="nombreUS" placeholder="Nombre" required/>
+        <input type="text" class="form-control" style="margin: 3px 10px" ng-model="apellidoUS" placeholder="Apellido" required/>
+        <input type="tel" class="form-control" style="margin: 3px 10px" ng-model="telefonoUS" placeholder="Telefono" required/>
+        <input type="email" class="form-control" style="margin: 3px 10px" ng-model="correoUS" placeholder="Correo" required/>
+        <select class="form-control" ng-value="categoriaUS"  data-ng-repeat="cate in categoryList">
+            <option >{{cate.nombre}}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-sm btn-outline-primary">Añadir Contacto</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

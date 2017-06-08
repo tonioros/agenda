@@ -2,8 +2,8 @@ var database = require('./database');
 var contacto = {};
 
 contacto.selectAll = function(callback) {
-  if(database) {
-    database.query("SELECT * FROM Contacto",
+  if(database) { 
+    database.query("SELECT con.* , cat.nombre AS nombreCategoria FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idContacto",
     function(error, resultados) {
       if(error) {
         throw error;
@@ -16,7 +16,7 @@ contacto.selectAll = function(callback) {
 
 contacto.select = function(idContacto, callback) {
   if(database) {
-    var sql = "SELECT * FROM Contacto WHERE idContacto = ?";
+    var sql = "SELECT con.* , cat.nombre FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idContacto WHERE idContacto = ?";
     database.query(sql, idContacto,
     function(error, resultado) {
       if(error) {
@@ -30,7 +30,7 @@ contacto.select = function(idContacto, callback) {
 
 contacto.insert = function(data, callback) {
   if(database) {
-    database.query("INSERT INTO Contacto SET ? ", data,
+    database.query("INSERT INTO Contacto(nombre,apellido,telefono,correo,idCategoria) VALUES(?,?,?,?,?);", data,
     function(error, resultado) {
       if(error) {
         throw error;
