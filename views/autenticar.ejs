@@ -1,0 +1,16 @@
+<% include Shared/layout %>
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <h2>Iniciar Sesion</h2>
+    <form class="form-group" ng-submit="autenticar()">
+        <input type="text" ng-model="nickAUTH" class="form-control" placeholder="Usuario">
+        <input type="password" ng-model="passAUTH" class="form-control" placeholder="Contraseña">
+      
+          <button type="submit" class="btn btn-primary">Entrar</button>
+      
+
+   </div>
+    </form>
+  </div>
+</div>
+<% include Shared/footer %>

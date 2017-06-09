@@ -1,40 +1,5 @@
-var express = require('express');
 var Usuario = require('../model/usuario');
-var router = express.Router();
-
-router.post('/autenticar', function(req, res) {
-  var data = {
-    nick: req.body.nick,
-    contrasena: req.body.contrasena
-  }
-  Usuario.autenticar(data, function(err, resultado) {
-    if(resultado !== undefined) {
-
-      res.cookie("idUsuario", resultado[0].idUsuario);
-      res.cookie('nick', resultado[0].nick);
-      console.log("Se guardo la cookie");
-
-      res.redirect("/");
-    } else {
-      res.json({"Mensaje": "No se ingreso la Usuario"});
-    }
-  });
-});
-
-router.post('/registrar', function(req, res) {
-  var data = {
-    idUsuario : null,
-    nick: req.body.nick,
-    contrasena: req.body.contrasena
-  }
-  Usuario.insert(data, function(err, resultado) {
-    if(resultado && resultado.insertId > 0) {
-      res.redirect("/");
-    } else {
-      res.json({"Mensaje": "No se ingreso la Usuario"});
-    }
-  });
-});
+var router =  require('express').Router();
 
 router.get('/api/usuario/', function(req, res) {
   Usuario.selectAll(function(error, resultados){

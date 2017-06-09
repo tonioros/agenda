@@ -63,7 +63,7 @@ router.put("/api/usuario/:idUsuario", function(req,res){
 router.post("/api/usuario/autenticar", function(req,res) {
     usuario.autenticar([req.body.nick, req.body.contrasena], function(error, respuesta){
         if(respuesta.length != 0){
-            res.json({auth: true, location: "", data: respuesta});
+            res.json({auth: true, location: "/usuario/", data: respuesta[0]});
         }else{
             res.json({auth: false, location: ""});
         }
