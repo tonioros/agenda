@@ -3,7 +3,7 @@ var contacto = {};
 
 contacto.selectAll = function(callback) {
   if(database) { 
-    database.query("SELECT con.* , cat.nombre AS nombreCategoria FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idContacto",
+    database.query("SELECT con.* , cat.nombre AS nombreCategoria FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idCategoria",
     function(error, resultados) {
       if(error) {
         throw error;

@@ -31,7 +31,7 @@ Usuario.select = function(idUsuario, callback) {
 Usuario.autenticar = function(data, callback) {
   if(database) {
     var sql = "SELECT * FROM Usuario WHERE nick = ? AND contrasena = ?";
-    database.query(sql, [data.nick, data.contrasena],
+    database.query(sql,data,
     function(error, resultado) {
       if(error) {
         throw error;
@@ -44,7 +44,7 @@ Usuario.autenticar = function(data, callback) {
 
 Usuario.insert = function(data, callback) {
   if(database) {
-    database.query("INSERT INTO Usuario SET ? ", data,
+    database.query("INSERT INTO usuario(nick, contrasena) VALUES(?,?) ", data,
     function(error, resultado) {
       if(error) {
         throw error;
