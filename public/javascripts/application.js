@@ -21,6 +21,7 @@ angular.module("agenda", []).controller("userController", ["$scope","$http",'$co
            data: data,
            headers: {"Content-Type":"application/json"}
             }).success(function(response){
+            	console.log(response)
             if(response.auth == true){
                 $cookies.put("UDI", response.data.idUsuario);
                 $cookies.put("UNA", response.data.nombre);

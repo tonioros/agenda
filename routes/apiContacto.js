@@ -1,8 +1,8 @@
 var contacto = require('../model/contacto');
 var router = require('express').Router();
 
-router.get('/api/contacto/', function(req, res) {
-  contacto.selectAll(function(error, resultados){
+router.get('/api/contacto/ID/:idUsuario', function(req, res) {
+  contacto.selectAll(req.params.idUsuario,function(error, resultados){
     if(typeof resultados !== undefined) {
       res.json(resultados);
     } else {
@@ -11,9 +11,9 @@ router.get('/api/contacto/', function(req, res) {
   });
 });
 
-router.get('/api/contacto/:idUsuario',
+router.get('/api/contacto/:idContacto',
   function(req, res) {
-    var idContacto = req.params.idUsuario;
+    var idContacto = req.params.idContacto;
     contacto.select(idContacto, function(error, resultados){
       if(typeof resultados !== undefined) {
         res.json(resultados);
@@ -24,14 +24,7 @@ router.get('/api/contacto/:idUsuario',
 });
 
 router.post('/api/contacto', function(req, res) {
-  var data = {
-    nombre: req.body.nombre,
-    apellido: req.body.apellido,
-    direccion: req.body.direccion,
-    telefono: req.body.telefono,
-    correo: req.body.correo,
-    idCategoria: req.body.idCategoria
-  }
+  var data = [ req.body.idUsuario, req.body.nombre, req.body.apellido, req.body.direccion, req.body.telefono, req.body.correo, req.body.idCategoria]
   contacto.insert(data, function(err, resultado) {
     if(resultado && resultado.insertId > 0) {
       res.json({Mensaje: true})
@@ -66,10 +59,9 @@ router.put('/api/contacto/:idContacto', function(req, res) {
   }
 });
 
-router.delete('/api/contacto/:idContacto', function(req, res) {
-    var idContacto = req.params.idContacto;
-
-    contacto.delete(idContacto, function(error, resultado){
+router.delete('/api/contacto/', function(req, res) {
+	var data = [req.body.idContacto, req.params.idUsuario];
+    contacto.delete(data, function(error, resultado){
       if(resultado && resultado.Mensaje === "Eliminado") {
          res.json({Mensaje: true})
       } else {

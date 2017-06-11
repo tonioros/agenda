@@ -9,7 +9,6 @@ var index = require('./routes/index');
 var categoriaRoute = require('./routes/apiCategoria');
 var contactoRoute = require('./routes/apiContacto');
 var usuarioRoute = require('./routes/apiUsuario');
-var detalleURoute = require('./routes/apiDetalleUsuario');
 
 var app = express();
 
@@ -30,7 +29,6 @@ app.use('/', index);
 app.use('/', categoriaRoute);
 app.use('/', contactoRoute);
 app.use('/', usuarioRoute);
-app.use('/', detalleURoute);
 
 
 // catch 404 and forward to error handler

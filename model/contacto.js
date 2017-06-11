@@ -1,10 +1,10 @@
 var database = require('./database');
 var contacto = {};
 
-contacto.selectAll = function(callback) {
+contacto.selectAll = function(idUsuario,callback) {
   if(database) { 
-    database.query("SELECT con.* , cat.nombre AS nombreCategoria FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idCategoria",
-    function(error, resultados) {
+    database.query("SELECT con.* , cat.nombre AS nombreCategoria FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idCategoria WHERE con.idContacto IN (SELECT idContacto FROM detalleusuario WHERE idUsuario = ?);",
+    idUsuario, function(error, resultados) {
       if(error) {
         throw error;
       } else {
@@ -30,7 +30,7 @@ contacto.select = function(idContacto, callback) {
 
 contacto.insert = function(data, callback) {
   if(database) {
-    database.query("INSERT INTO Contacto(nombre,apellido,telefono,correo,idCategoria) VALUES(?,?,?,?,?);", data,
+    database.query("CALL ADDContact (?,?,?,?,?,?);", data,
     function(error, resultado) {
       if(error) {
         throw error;
@@ -58,11 +58,10 @@ contacto.update = function(data, callback) {
   }//Fin IF
 }//FIN SelectAll
 
-contacto.delete = function(idContacto, callback) {
+contacto.delete = function(data, callback) {
   if(database) {
-    var sql = "DELETE FROM Contacto WHERE idContacto = ?";
-    database.query(sql, idContacto,
-    function(error, resultado) {
+    var sql = "CALL REMOVEContact (?,?);";
+    database.query(sql, data, function(error, resultado) {
       if(error) {
         throw error;
       } else {
