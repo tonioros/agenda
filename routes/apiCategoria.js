@@ -2,8 +2,8 @@ var express = require('express');
 var categoria = require('../model/categoria');
 var router = express.Router();
 
-router.get('/api/categoria/', function(req, res) {
-  categoria.selectAll(function(error, resultados){
+router.get('/api/categoria/ID/:idUsuario', function(req, res) {
+  categoria.selectAll(req.params.idUsuario,function(error, resultados){
     if(typeof resultados !== undefined) {
       res.json(resultados);
     } else {
@@ -26,10 +26,7 @@ router.get('/api/categoria/:idCategoria',
 });
 
 router.post('/api/categoria', function(req, res) {
-  var data = {
-    idCategoria : null,
-    nombreCategoria: req.body.nombreCategoria
-  }
+  var data = [req.body.nombre, req.body.idUsuario]
   categoria.insert(data, function(err, resultado) {
     if(resultado && resultado.insertId > 0) {
       res.redirect('/api/categoria');
@@ -41,14 +38,15 @@ router.post('/api/categoria', function(req, res) {
 
 router.put('/api/categoria/:idCategoria', function(req, res) {
   var idCategoria = req.params.idCategoria;
-  var data = {
-    idCategoria : req.body.idCategoria,
-    nombreCategoria: req.body.nombreCategoria
-  }
+  var data = [
+    req.body.nombre,
+    req.body.idUsuario,
+    req.body.idCategoria
+  ]                                                                                             
 
-  if(idCategoria === data.idCategoria) {
+  if(idCategoria === req.body.idCategoria) {
     categoria.update(data, function(err, resultado) {
-      if(resultado !== undefined) {
+      if(typeof resultado !== undefined) {
         res.json(resultado);
       } else {
         res.json({"Mensaje": "No se modifico la categoria"});
@@ -59,12 +57,12 @@ router.put('/api/categoria/:idCategoria', function(req, res) {
   }
 });
 
-router.delete('/api/categoria/:idCategoria',
+router.delete('/api/categoria/',
   function(req, res) {
-    var idCategoria = req.params.idCategoria;
+    var idCategoria = req.body.idCategoria;
     categoria.delete(idCategoria,
       function(error, resultado){
-      if(resultado && resultado.Mensaje === "Eliminado") {
+      if(resultado && resultado.Mensaje == "Eliminado") {
         res.redirect("/api/categoria");
       } else {
         res.json({"Mensaje": "No se puede eliminar"});

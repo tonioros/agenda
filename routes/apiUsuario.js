@@ -63,9 +63,13 @@ router.put("/api/usuario/:idUsuario", function(req,res){
 router.post("/api/usuario/autenticar", function(req,res) {
     usuario.autenticar([req.body.nick, req.body.contrasena], function(error, respuesta){
         if(respuesta.length != 0){
+            if(respuesta[0].nick == req.body.nick && respuesta[0].contrasena == req.body.contrasena){
             res.json({auth: true, location: "/usuario/", data: respuesta[0]});
+            }else{
+            res.json({auth: false, location: "", Mensaje:"Contraseña Incorrecta"});    
+            }
         }else{
-            res.json({auth: false, location: ""});
+            res.json({auth: false, location: "", Mensaje:"Usuario no valido"});
         }
     });
 });

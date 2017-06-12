@@ -35,7 +35,7 @@ contacto.insert = function(data, callback) {
       if(error) {
         throw error;
       } else {
-        callback(null, {"insertId": resultado.insertId});
+        callback(null, {"Mensaje": "Insertado"});
       }
     });//Fin query
   }//Fin IF
@@ -43,16 +43,14 @@ contacto.insert = function(data, callback) {
 
 contacto.update = function(data, callback) {
   if(database) {
-    var sql = "UPDATE Contacto SET "
-    +"nombre = ?, apellido = ?, direccion = ?, telefono = ?, correo = ?, idCategoria = ?  "
+    var sql = "UPDATE contacto SET "
+    +"nombre = ?, apellido = ?, telefono = ?, correo = ?, idCategoria = ?  "
     +"WHERE idContacto = ?";
-    database.query(sql,
-    [data.nombre, data.apellido, data.direccion, data.telefono, data.correo, data.idCategoria, data.idContacto],
-    function(error, resultado) {
+    database.query(sql,data,function(error, resultado) {
       if(error) {
         throw error;
       } else {
-        callback(null, data);
+        callback(null, {"Mensaje": "Editado"});
       }
     });//Fin query
   }//Fin IF
@@ -60,6 +58,7 @@ contacto.update = function(data, callback) {
 
 contacto.delete = function(data, callback) {
   if(database) {
+    console.log(data)
     var sql = "CALL REMOVEContact (?,?);";
     database.query(sql, data, function(error, resultado) {
       if(error) {

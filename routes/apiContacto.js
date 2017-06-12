@@ -24,9 +24,9 @@ router.get('/api/contacto/:idContacto',
 });
 
 router.post('/api/contacto', function(req, res) {
-  var data = [ req.body.idUsuario, req.body.nombre, req.body.apellido, req.body.direccion, req.body.telefono, req.body.correo, req.body.idCategoria]
+  var data = [ req.body.idUsuario, req.body.nombre, req.body.apellido, req.body.telefono, req.body.correo, req.body.idCategoria]
   contacto.insert(data, function(err, resultado) {
-    if(resultado && resultado.insertId > 0) {
+    if(resultado.Mensaje.length != 0) {
       res.json({Mensaje: true})
     } else {
       res.json({"Mensaje": false});
@@ -35,20 +35,10 @@ router.post('/api/contacto', function(req, res) {
 });
 
 router.put('/api/contacto/:idContacto', function(req, res) {
-  var idContacto = req.params.idContacto;
-  var data = {
-    idContacto : req.body.idContacto,
-    nombre: req.body.nombre,
-    apellido: req.body.apellido,
-    direccion: req.body.direccion,
-    telefono: req.body.telefono,
-    correo: req.body.correo,
-    idCategoria: req.body.idCategoria
-  }
-
-  if(idContacto === data.idContacto){
+  var data = [req.body.nombre, req.body.apellido, req.body.telefono, req.body.correo, req.body.idCategoria, req.body.idContacto]
+  if(req.params.idContacto == req.body.idContacto){
     contacto.update(data, function(err, resultado) {
-      if(resultado !== undefined) {
+     if(resultado.Mensaje.length != 0) {
          res.json({Mensaje: true})
       } else {
           res.json({Mensaje: false})
@@ -60,9 +50,9 @@ router.put('/api/contacto/:idContacto', function(req, res) {
 });
 
 router.delete('/api/contacto/', function(req, res) {
-	var data = [req.body.idContacto, req.params.idUsuario];
+	var data = [req.body.idContacto, req.body.idUsuario];
     contacto.delete(data, function(error, resultado){
-      if(resultado && resultado.Mensaje === "Eliminado") {
+      if(resultado.Mensaje.length != 0) {
          res.json({Mensaje: true})
       } else {
          res.json({Mensaje: false})

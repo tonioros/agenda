@@ -1,9 +1,9 @@
 var database = require('./database');
 var categoria = {};
 
-categoria.selectAll = function(callback) {
+categoria.selectAll = function(ID,callback) {
   if(database) {
-    database.query("SELECT * FROM Categoria",
+    database.query("SELECT * FROM Categoria WHERE idUsuario = ?;",ID,
     function(error, resultados) {
       if(error) {
         throw error;
@@ -30,7 +30,7 @@ categoria.select = function(idCategoria, callback) {
 
 categoria.insert = function(data, callback) {
   if(database) {
-    database.query("INSERT INTO Categoria SET ? ", data,
+    database.query("INSERT INTO Categoria(nombre, idUsuario) VALUES(?,?) ", data,
     function(error, resultado) {
       if(error) {
         throw error;
@@ -44,10 +44,8 @@ categoria.insert = function(data, callback) {
 categoria.update = function(data, callback) {
   if(database) {
     var sql = "UPDATE Categoria SET "
-    +"nombreCategoria = ? WHERE idCategoria = ?";
-    database.query(sql,
-    [data.nombreCategoria, data.idCategoria],
-    function(error, resultado) {
+    +"nombre = ?, idUsuario = ? WHERE idCategoria = ?";
+    database.query(sql, data, function(error, resultado) {
       if(error) {
         throw error;
       } else {
@@ -63,7 +61,7 @@ categoria.delete = function(idCategoria, callback) {
     database.query(sql, idCategoria,
     function(error, resultado) {
       if(error) {
-        throw error;
+        //throw error;
       } else {
         callback(null, {"Mensaje": "Eliminado"});
       }
