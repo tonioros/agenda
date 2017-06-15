@@ -18,6 +18,7 @@ CREATE TABLE contacto(
 	telefono VARCHAR(11) NOT NULL, 
 	correo VARCHAR(25) NOT NULL,
 	idCategoria INT NOT NULL,
+	urlIMG VARCHAR(200),
 	FOREIGN KEY(idCategoria) REFERENCES categoria(idCategoria)
 );
 CREATE TABLE detalleusuario(
@@ -31,15 +32,48 @@ CREATE TABLE historiaContacto(
 	idHistorialC INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	idContacto INT NOT NULL,
 	fechaHora DATETIME NOT NULL,
-	descripcion TEXT NOT NULL,
-	FOREIGN KEY(idContacto) REFERENCES contacto(idContacto)
+	descripcion TEXT NOT NULL
 );
+
+CREATE TABLE historiaUsuario(
+	idHistoriUS INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	idUsuario INT NOT NULL,
+	fechaHora DATETIME NOT NULL,
+	descripcion TEXT NOT NULL
+);
+CREATE TABLE cita(
+	idCita INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	lugar VARCHAR(100) NOT NULL,
+	descripcion TEXT NOT NULL,
+	idContacto INT NOT NULL,
+	fecha DATETIME NOT NULL,
+	FOREIGN KEY (idContacto) REFERENCES contacto(idContacto)
+);
+
+CREATE TABLE prioridad(
+	idPrioridad INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	nombre VARCHAR(20)
+);
+
+CREATE TABLE tarea(
+	idTarea INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	nombre VARCHAR(30) NOT NULL,
+	descripcion TEXT NOT NULL,
+	idCategoria INT NOT NULL,
+	idPrioridad INT NOT NULL,
+	fecha DATETIME NOT NULL,
+	FOREIGN KEY (idCategoria) REFERENCES categoria(idCategoria),
+	FOREIGN KEY (idPrioridad) REFERENCES prioridad(idPrioridad)
+);
+
+
 
 DELIMITER $$
 CREATE PROCEDURE ADDContact(
 	us_idUsuario INT,
 	us_nombre VARCHAR(25),
 	us_apellido VARCHAR(25),
+	us_urlIMG VARCHAR(200),
 	us_telefono VARCHAR(12),
 	us_correo VARCHAR(25),
 	us_idCategoria INT
@@ -47,8 +81,8 @@ CREATE PROCEDURE ADDContact(
 BEGIN
 	DECLARE idCON INT;
 	
-	INSERT INTO contacto(nombre,apellido,telefono,correo,idCategoria) 
-	VALUES(us_nombre,us_apellido,us_telefono,us_correo,us_idCategoria);
+	INSERT INTO contacto(nombre,apellido,telefono,correo,idCategoria, urlIMG) 
+	VALUES(us_nombre,us_apellido,us_telefono,us_correo,us_idCategoria, us_urlIMG);
 	
 	SET idCON = (SELECT idContacto FROM contacto WHERE nombre=us_nombre && apellido=us_apellido && telefono=us_telefono && correo=us_correo && idCategoria=us_idCategoria LIMIT 1);
 	
@@ -68,6 +102,8 @@ BEGIN
 	DELETE FROM contacto WHERE idContacto = us_idContacto;
 END $$
 
+
+
 CREATE TRIGGER AddOnContact
 AFTER INSERT ON contacto
 FOR EACH ROW
@@ -78,4 +114,30 @@ BEGIN
 	VALUES (idCont, NOW(), "SE INGRESO UN CONTACTO");
 END $$
 
-INSERT INTO usuario VALUES ('tonioros','123');
+CREATE TRIGGER EditOnContact
+AFTER UPDATE ON contacto
+FOR EACH ROW
+BEGIN 
+	INSERT INTO historiaContacto(idContacto, fechaHora, descripcion)
+	VALUES (NEW.idContacto, NOW(), "SE MODIFICO UN CONTACTO");
+END $$
+
+CREATE TRIGGER RemoveOnContacto
+BEFORE UPDATE ON contacto
+FOR EACH ROW
+BEGIN 
+	INSERT INTO historiaContacto(idContacto, fechaHora, descripcion)
+	VALUES (OLD.idContacto, NOW(), "SE ELIMINO UN CONTACTO");
+END $$
+
+
+CREATE TRIGGER EditOnUser 
+BEFORE UPDATE ON usuario
+FOR EACH ROW
+BEGIN 
+	INSERT INTO historiausuario(idUsuario, fechaHora, descripcion) 
+	VALUES (OLD.idUsuario, NOW(), "SE MODIFICO EL USUARIO");
+END $$
+
+
+INSERT INTO usuario(nick,contrasena) VALUES ('tonioros','123');

@@ -30,7 +30,7 @@ contacto.select = function(idContacto, callback) {
 
 contacto.insert = function(data, callback) {
   if(database) {
-    database.query("CALL ADDContact (?,?,?,?,?,?);", data,
+    database.query("CALL ADDContact (?,?,?,?,?,?,?);", data,
     function(error, resultado) {
       if(error) {
         throw error;

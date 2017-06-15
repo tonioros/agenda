@@ -24,7 +24,8 @@ router.get('/api/contacto/:idContacto',
 });
 
 router.post('/api/contacto', function(req, res) {
-  var data = [ req.body.idUsuario, req.body.nombre, req.body.apellido, req.body.telefono, req.body.correo, req.body.idCategoria]
+  var data = [ req.body.idUsuario, req.body.nombre, req.body.apellido,"", req.body.telefono, req.body.correo, req.body.idCategoria ]
+  console.log(data)
   contacto.insert(data, function(err, resultado) {
     if(resultado.Mensaje.length != 0) {
       res.json({Mensaje: true})

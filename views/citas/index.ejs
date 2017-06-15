@@ -1,0 +1,24 @@
+<% include ../Shared/layout %>
+    <h2 class="text-center"><%=saludo %></h2>
+    <div class="row" ng-controller="citasController">
+        <div class="col-lg-6" >
+            <div class="form-inline">
+                <input type="text" class="form-control" style="margin: 1px 5px" placeholder="Buscar..." ng-model="searchCI" />
+                <button type="button" class="btn btn-sm btn-outline-success" data-target="#agregarUSMO" data-toggle="modal">Agregar</button>
+            </div>
+            <table class="table table-hover table-bordered">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>#</th><th>Fecha</th><th>Lugar</th><th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody >
+                     <tr ng-repeat="citas in citasList | filter: searchCI ">
+                        <td>{{citas.idCita}}</td><td>{{citas.fecha}}</td><td>{{user.lugar}}</td><td>{{user.descripcion}}</td><div class="btn-group"><button type="button" ng-click="setCont(user)" data-target="#editarUSMO" data-toggle="modal" class="btn btn-sm btn-outline-warning">Modificar</button><button type="button" ng-click="setCont(user)" data-target="#eliminarUSMO" data-toggle="modal" class="btn btn-sm btn-outline-danger">Borrar</button></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+<% include ../Shared/footer %>

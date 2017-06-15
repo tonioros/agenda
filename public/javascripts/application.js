@@ -14,6 +14,7 @@ app.controller("userController", ["$scope","$http",'$cookies' , function($scope,
     }
 
     //Cargar datos en Gestions
+    
     $scope.setCont = function(cont){
          $scope.ContID =cont.idContacto;
          $scope.nombreUS = cont.nombre
@@ -136,22 +137,24 @@ app.controller("categoryController", ["$scope","$http","$cookies", function($sco
         }
         var url = "../../api/categoria/"
         var method = "post"
-        console.log(data)
        switch (OperaID) {
            case 2:
-              method= 'put'
-              url = url+data.idCategoria
+            method= 'put'
+            url = url+data.idCategoria
             break;
-            case 3:
+           case 3:
             method= 'delete'
-               break;
+            break;
        }
+        console.log(data)
+        console.log("URL: "+url+" Method:"+method)
         $http({
             method: method,
             url: url ,
             data: data,
             headers: {"Content-Type":"application/json"}
-            }).then(function(response){
+        }).then(function(response){
+            console.log(response);
             if(response.data.Mensaje == true){          
               $("#closeAGUSMO").click();
             }else{
@@ -162,12 +165,58 @@ app.controller("categoryController", ["$scope","$http","$cookies", function($sco
           $scope.categoryList = response.data;
      })
     }
+    $scope.cerrarS = function(){
+        $cookies.remove("UDI")
+        $cookies.remove("UNI")
+        window.location ="http://localhost:3000"
+    }
 
 }]);
+
+app.controller("registrarUS",["$scope","$http","$cookies", function($scope,$http,$cookies){
+    $scope.registrar = function(){
+        var data = {
+            nick: $scope.nickUS,
+            contrasena: $scope.passUS
+        }
+        $http({
+            method: "post",
+            url: "../api/usuario/",
+            headers: "Content-Type/application-json",
+            data: data
+        }).then(function(response){
+            if(response.data.Mensaje == true){
+                $scope.Mensaje= "¡Te has registrado correctamente!, ahora ve a iniciar sesion"
+            }else{
+                $scope.Mensaje= "Parece que tenemos problemas, Ha ocurrido un error al registrarte, recarga la pagina e intenta de  nuevo"
+            }
+        });
+    }
+
+}]);
+
+app.controller("citasController",["$scope", "$http", "$cookies", function($scope, $http, $cookies){
+    function getData(){
+        $http("../../api/citas/ID/"+$cookies.get("UDI")).then(function(response){
+            $scope.citasList = response.data;
+        });
+    }
+}])
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
 }
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
+}
+
+function cerrarS(){
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+        window.location ="http://localhost:3000"
 }

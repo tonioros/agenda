@@ -1,33 +1,33 @@
 var express = require('express');
-var categoria = require('../model/categoria');
+var citas = require('../model/citas');
 var router = express.Router();
 
-router.get('/api/categoria/ID/:idUsuario', function(req, res) {
-  categoria.selectAll(req.params.idUsuario,function(error, resultados){
+router.get('/api/citas/ID/:idUsuario', function(req, res) {
+  citas.selectAll(req.params.idUsuario,function(error, resultados){
     if(typeof resultados !== undefined) {
       res.json(resultados);
     } else {
-      res.json({"Mensaje": "No hay categorias"});
+      res.json({"Mensaje": "No hay citass"});
     }
   });
 });
 
-router.get('/api/categoria/:idCategoria',
+router.get('/api/citas/:idcitas',
   function(req, res) {
-    var idCategoria = req.params.idCategoria;
-    categoria.select(idCategoria,
+    var idcitas = req.params.idcitas;
+    citas.select(idcitas,
       function(error, resultados){
       if(typeof resultados !== undefined) {
         res.json(resultados);
       } else {
-        res.json({"Mensaje": "No hay categorias"});
+        res.json({"Mensaje": "No hay citass"});
       }
   });
 });
 
-router.post('/api/categoria', function(req, res) {
+router.post('/api/citas', function(req, res) {
   var data = [req.body.nombre, req.body.idUsuario]
-  categoria.insert(data, function(err, resultado) {
+  citas.insert(data, function(err, resultado) {
     if(resultado && resultado.insertId > 0) {
        res.json({"Mensaje":true});
     } else {
@@ -36,31 +36,32 @@ router.post('/api/categoria', function(req, res) {
   });
 });
 
-router.put('/api/categoria/:idCategoria', function(req, res) {
-  var idCategoria = req.params.idCategoria;
+router.put('/api/citas/:idCitas', function(req, res) {
+  var idcitas = req.params.idCita;
   var data = [
-    req.body.nombre,
-    req.body.idUsuario,
-    req.body.idCategoria
+    req.body.lugar,
+    req.body.descripcion,
+    req.body.idContacto, 
+    req.body.idCita
   ]                                                                                             
 
-  if(idCategoria == req.body.idCategoria) {
-    categoria.update(data, function(err, resultado) {
+  if(idcitas == req.body.idCita) {
+    citas.update(data, function(err, resultado) {
       if(typeof resultado !== undefined) {
         res.json(resultado);
       } else {
-        res.json({"Mensaje": "No se modifico la categoria"});
+        res.json({"Mensaje": true});
       }
     });
   } else {
-    res.json({"Mensaje": "No concuerdan los datos"});
+    res.json({"Mensaje": false});
   }
 });
 
-router.delete('/api/categoria/',
+router.delete('/api/citas/',
   function(req, res) {
-    var idCategoria = req.body.idCategoria;
-    categoria.delete(idCategoria,
+    var idcitas = req.body.idcitas;
+    citas.delete(idcitas,
       function(error, resultado){
       if(resultado && resultado.Mensaje == "Eliminado") {
         res.json({"Mensaje": true});

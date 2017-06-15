@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var categoriaRoute = require('./routes/apiCategoria');
 var contactoRoute = require('./routes/apiContacto');
 var usuarioRoute = require('./routes/apiUsuario');
+var citaRoute = require('./routes/apiCita');
 
 var app = express();
 
@@ -29,7 +30,7 @@ app.use('/', index);
 app.use('/', categoriaRoute);
 app.use('/', contactoRoute);
 app.use('/', usuarioRoute);
-
+app.use('/', citaRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
