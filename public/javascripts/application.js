@@ -33,24 +33,36 @@ app.controller("userController", ["$scope","$http",'$cookies' , function($scope,
             apellido: $scope.apellidoUS,
             telefono: $scope.telefonoUS,
             correo: $scope.correoUS,
-            idCategoria: $scope.categoriaUS.idCategoria
+            idCategoria: $scope.categoriaUS.idCategoria,
+            urlIMG : ""
         }
        switch (OperaID) {
            case 1:
-               $http({
-                    method: 'post',
-                    url: '../api/contacto',
-                    data: data,
-                    headers: {"Content-Type":"application/json"}
-                }).then(function(response){
-                    console.log(response)
-                        if(response.data.Mensaje == true){
-                            
+              var formu = new FormData()
+              formu.append("urlIMG", $("#urlIMGUS")[0].files[0])
+              console.log(formu);
+              console.log("Iniciando Llamada")
+              $http.post('../api/contacto/cargar',formu)
+              .then(function(response){
+                console.log("Llamada culminada: ")
+                console.log(response);
+                if(response.data.value){                     
+                    data.urlIMG = response.data.urlIMG;
+                    $http({
+                        method: 'post',
+                        url: '../api/contacto',
+                        data: data,
+                        headers: {"Content-Type":"application/json"}
+                    }).then(function(response){
+                        console.log(response)
+                        if(response.data.Mensaje == true){            
                             $("#closeAGUSMO").click();
                         }else{
                             $scope.error="Error en el API para Contactos"
                         }
-                })
+                    })
+                }
+            })         
                break;
            case 2:
                $http({
@@ -187,6 +199,8 @@ app.controller("registrarUS",["$scope","$http","$cookies", function($scope,$http
         }).then(function(response){
             if(response.data.Mensaje == true){
                 $scope.Mensaje= "¡Te has registrado correctamente!, ahora ve a iniciar sesion"
+            }else if(response.data.Mensaje != true && response.data.Mensaje != false ){
+                $scope.Mensaje = response.data.Mensaje;
             }else{
                 $scope.Mensaje= "Parece que tenemos problemas, Ha ocurrido un error al registrarte, recarga la pagina e intenta de  nuevo"
             }
@@ -197,10 +211,147 @@ app.controller("registrarUS",["$scope","$http","$cookies", function($scope,$http
 
 app.controller("citasController",["$scope", "$http", "$cookies", function($scope, $http, $cookies){
     function getData(){
-        $http("../../api/citas/ID/"+$cookies.get("UDI")).then(function(response){
+        $http.get("../../api/citas/ID/"+$cookies.get("UDI")).then(function(response){
             $scope.citasList = response.data;
+            console.log($scope.citasList)
+        });
+        
+        $http.get("../../api/contacto/ID/"+$cookies.get("UDI")).then(function(response){
+            $scope.contactosList = response.data;
+            console.log($scope.contactosList)
         });
     }
+     $scope.setCit = function(CATE){
+        $scope.citaID = CATE.idCita;
+        $scope.lugarCI = CATE.lugar;
+        $scope.descripcionCI = CATE.descripcion;
+        $scope.fechaCI= CATE.fecha
+     }
+    $scope.gestionCI = function(OperaID){
+       
+        var url = "../../api/citas/"
+        var method = "post"
+       switch (OperaID) {
+           case 1:
+             var data = {
+                lugar: $scope.lugarCI,
+                descripcion: $scope.descripcionCI,
+                idContacto: ($scope.contactoCI.idContacto != null )?$scope.contactoCI.idContacto :0,
+                fecha: $scope.fechaCI,
+                idUsuario: $cookies.get("UDI")
+                }
+            break;
+           case 2:
+            var data = {
+                idCita: $scope.citaID,
+                lugar: $scope.lugarCI,
+                descripcion: $scope.descripcionCI,
+                idContacto: ($scope.contactoCI.idContacto != null )?$scope.contactoCI.idContacto :0,
+                fecha: $scope.fechaCI,
+                idUsuario: $cookies.get("UDI")
+                }
+            method= 'put'
+            url = url+data.idCita
+            break;
+           case 3:
+            method= 'delete'
+            var data= {idCita: $scope.citaID}
+            break;
+       }
+        console.log(data)
+        console.log(method+" "+url)
+        $http({
+            method: method,
+            url: url ,
+            data: data,
+            headers: {"Content-Type":"application/json"}
+        }).then(function(response){
+            console.log(response);
+            if(response.data.Mensaje == true){          
+              $("#closeAGUSMO").click();
+            }else{
+              $scope.error="Error en el API para Contactos"
+            }
+        })
+     getData()
+    
+    }
+    getData()
+}])
+
+app.controller("tareasController",["$scope", "$http", "$cookies", function($scope, $http, $cookies){
+    function getData(){
+        $http.get("../../api/tarea/ID/"+$cookies.get("UDI")).then(function(response){
+            $scope.tareasList = response.data;
+            console.log($scope.tareasList)
+        });
+        
+        $http.get("../../api/prioridad").then(function(response){
+            $scope.prioridadList = response.data;
+            console.log($scope.prioridadList)
+        });
+
+         $http.get("../../api/categoria/ID/"+$cookies.get("UDI")).then(function(response){
+            $scope.categoriaList = response.data;
+            console.log($scope.categoriaList)
+        });
+    }
+     $scope.setCit = function(CATE){
+        $scope.citaID = CATE.idCita;
+        $scope.lugarCI = CATE.lugar;
+        $scope.descripcionCI = CATE.descripcion;
+        $scope.fechaCI= CATE.fecha
+     }
+    $scope.gestionCI = function(OperaID){
+       
+        var url = "../../api/citas/"
+        var method = "post"
+       switch (OperaID) {
+           case 1:
+             var data = {
+                lugar: $scope.lugarCI,
+                descripcion: $scope.descripcionCI,
+                idContacto: ($scope.contactoCI.idContacto != null )?$scope.contactoCI.idContacto :0,
+                fecha: $scope.fechaCI,
+                idUsuario: $cookies.get("UDI")
+                }
+            break;
+           case 2:
+            var data = {
+                idCita: $scope.citaID,
+                lugar: $scope.lugarCI,
+                descripcion: $scope.descripcionCI,
+                idContacto: ($scope.contactoCI.idContacto != null )?$scope.contactoCI.idContacto :0,
+                fecha: $scope.fechaCI,
+                idUsuario: $cookies.get("UDI")
+                }
+            method= 'put'
+            url = url+data.idCita
+            break;
+           case 3:
+            method= 'delete'
+            var data= {idCita: $scope.citaID}
+            break;
+       }
+        console.log(data)
+        console.log(method+" "+url)
+        $http({
+            method: method,
+            url: url ,
+            data: data,
+            headers: {"Content-Type":"application/json"}
+        }).then(function(response){
+            console.log(response);
+            if(response.data.Mensaje == true){          
+              $("#closeAGUSMO").click();
+            }else{
+              $scope.error="Error en el API para Contactos"
+            }
+        })
+     getData()
+    
+    }
+    getData()
 }])
 
 function openNav() {

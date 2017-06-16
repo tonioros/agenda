@@ -3,7 +3,7 @@ var citas = {};
 
 citas.selectAll = function(ID,callback) {
   if(database) {
-    database.query("SELECT * FROM cita WHERE idContacto= ?;",ID,
+    database.query("SELECT ci.*, con.nombre , con.apellido FROM cita ci INNER JOIN contacto con ON con.idContacto = ci.idContacto WHERE idUsuario= ?;",ID,
     function(error, resultados) {
       if(error) {
         throw error;
@@ -16,7 +16,7 @@ citas.selectAll = function(ID,callback) {
 
 citas.select = function(idcitas, callback) {
   if(database) {
-    var sql = "SELECT * FROM cita WHERE idCita = ?";
+    var sql = "SELECT ci.*, con.nombre , con.apellido FROM cita ci INNER JOIN contacto con ON con.idContacto = ci.idContacto WHERE idCita = ?";
     database.query(sql, idcitas,
     function(error, resultado) {
       if(error) {
@@ -30,7 +30,7 @@ citas.select = function(idcitas, callback) {
 
 citas.insert = function(data, callback) {
   if(database) {
-    database.query("INSERT INTO citas(lugar, descripcion, idContacto, fecha) VALUES(?,?,?, NOW()) ", data,
+    database.query("INSERT INTO cita (lugar, descripcion, idContacto, fecha, idUsuario) VALUES(?,?,?,?,?) ", data,
     function(error, resultado) {
       if(error) {
         throw error;
@@ -43,7 +43,7 @@ citas.insert = function(data, callback) {
 
 citas.update = function(data, callback) {
   if(database) {
-    var sql = "UPDATE citas SET lugar = ?, descripcion = ? , idContacto = ? WHERE idCita = ?";
+    var sql = "UPDATE cita SET lugar = ?, descripcion = ? , idContacto = ? WHERE idCita = ?";
     database.query(sql, data, function(error, resultado) {
       if(error) {
         throw error;
@@ -56,7 +56,7 @@ citas.update = function(data, callback) {
 
 citas.delete = function(idcitas, callback) {
   if(database) {
-    var sql = "DELETE FROM citas WHERE idCita = ?";
+    var sql = "DELETE FROM cita WHERE idCita = ?";
     database.query(sql, idcitas,
     function(error, resultado) {
       if(error) {

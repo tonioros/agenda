@@ -26,7 +26,7 @@ router.get('/api/citas/:idcitas',
 });
 
 router.post('/api/citas', function(req, res) {
-  var data = [req.body.nombre, req.body.idUsuario]
+  var data = [req.body.lugar ,req.body.descripcion ,req.body.idContacto,req.body.fecha ,req.body.idUsuario ]
   citas.insert(data, function(err, resultado) {
     if(resultado && resultado.insertId > 0) {
        res.json({"Mensaje":true});
@@ -37,20 +37,20 @@ router.post('/api/citas', function(req, res) {
 });
 
 router.put('/api/citas/:idCitas', function(req, res) {
-  var idcitas = req.params.idCita;
+  var idcitas = req.params.idCitas;
   var data = [
     req.body.lugar,
     req.body.descripcion,
     req.body.idContacto, 
     req.body.idCita
   ]                                                                                             
-
+  console.log(idcitas+" "+req.body.idCita+" "+(idcitas == req.body.idCita))
   if(idcitas == req.body.idCita) {
     citas.update(data, function(err, resultado) {
-      if(typeof resultado !== undefined) {
-        res.json(resultado);
+      if(resultado != null) {
+        res.json({"Mensaje": false});
       } else {
-        res.json({"Mensaje": true});
+        res.json({"Mensaje": false,value:"Error en SQL"});
       }
     });
   } else {
@@ -60,10 +60,10 @@ router.put('/api/citas/:idCitas', function(req, res) {
 
 router.delete('/api/citas/',
   function(req, res) {
-    var idcitas = req.body.idcitas;
+    var idcitas = req.body.idCita;
     citas.delete(idcitas,
       function(error, resultado){
-      if(resultado && resultado.Mensaje == "Eliminado") {
+      if(resultado.Mensaje == "Eliminado") {
         res.json({"Mensaje": true});
       } else {
         res.json({"Mensaje": false});

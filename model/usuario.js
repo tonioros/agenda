@@ -28,6 +28,22 @@ Usuario.select = function(idUsuario, callback) {
   }//Fin IF
 }//FIN SelectAll
 
+Usuario.countUsers = function(nick, callback) {
+  if(database) {
+    var sql = "SELECT COUNT(idUsuario) AS cuentaData FROM Usuario WHERE nick = '"+nick+"' ;";
+    console.log(sql);
+    database.query(sql,
+    function(error, resultado) {
+      if(error) {
+        throw error;
+      } else {
+        return  callback(resultado);
+      }
+    });
+  }
+  return [];
+}
+
 Usuario.autenticar = function(data, callback) {
   if(database) {
     var sql = "SELECT * FROM Usuario WHERE nick = ? AND contrasena = ?";

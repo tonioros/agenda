@@ -46,10 +46,11 @@ CREATE TABLE cita(
 	lugar VARCHAR(100) NOT NULL,
 	descripcion TEXT NOT NULL,
 	idContacto INT NOT NULL,
+    idUsuario INT NOT NULL,
 	fecha DATETIME NOT NULL,
-	FOREIGN KEY (idContacto) REFERENCES contacto(idContacto)
+	FOREIGN KEY (idContacto) REFERENCES contacto(idContacto),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
-
 CREATE TABLE prioridad(
 	idPrioridad INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	nombre VARCHAR(20)
@@ -61,12 +62,12 @@ CREATE TABLE tarea(
 	descripcion TEXT NOT NULL,
 	idCategoria INT NOT NULL,
 	idPrioridad INT NOT NULL,
+	idUsuario INT NOT NULL,
 	fecha DATETIME NOT NULL,
 	FOREIGN KEY (idCategoria) REFERENCES categoria(idCategoria),
-	FOREIGN KEY (idPrioridad) REFERENCES prioridad(idPrioridad)
+	FOREIGN KEY (idPrioridad) REFERENCES prioridad(idPrioridad),
+	FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
-
-
 
 DELIMITER $$
 CREATE PROCEDURE ADDContact(
@@ -141,3 +142,4 @@ END $$
 
 
 INSERT INTO usuario(nick,contrasena) VALUES ('tonioros','123');
+INSERT INTO `prioridad` (`idPrioridad`, `nombre`) VALUES (NULL, 'Alta'), (NULL, 'Medio'), (NULL, 'Bajo');

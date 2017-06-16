@@ -7,12 +7,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form ng-submit="gestionUS(1)">
+      <form id="AGuser" ng-submit="gestionUS(1)">
       <div class="modal-body">
-        <input type="text" class="form-control" style="margin: 3px 10px" ng-model="nombreUS" placeholder="Nombre" required/>
-        <input type="text" class="form-control" style="margin: 3px 10px" ng-model="apellidoUS" placeholder="Apellido" required/>
-        <input type="tel" class="form-control" style="margin: 3px 10px" ng-model="telefonoUS" placeholder="Telefono" required/>
-        <input type="email" class="form-control" style="margin: 3px 10px" ng-model="correoUS" placeholder="Correo" required/>
+        <input type="text" name="Nombre" class="form-control" style="margin: 3px 10px" ng-model="nombreUS" placeholder="Nombre" required/>
+        <input type="text" name="Apellido" class="form-control" style="margin: 3px 10px" ng-model="apellidoUS" placeholder="Apellido" required/>
+        <input type="tel" name="Telefono" class="form-control" style="margin: 3px 10px" ng-model="telefonoUS" placeholder="Telefono" required/>
+        <input type="email" name="Correo" class="form-control" style="margin: 3px 10px" ng-model="correoUS" placeholder="Correo" required/>
+        <input type="file" id="urlIMGUS" class="form-control" name="urlIMG" style="margin: 3px 10px" accept="image/png,image/jpg,image/jpeg" placeholder="Imagen" />
         <select class="form-control" style="margin: 3px 10px" ng-model="categoriaUS" ng-options="cate as cate.nombre for cate in categoryList"></select>
       </div>
       <div class="modal-footer">

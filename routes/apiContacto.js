@@ -1,5 +1,19 @@
 var contacto = require('../model/contacto');
 var router = require('express').Router();
+var multer=require("multer"),
+    path = require('path')
+const rutimage=path.join(__dirname,"..","public/images/contenido/")
+
+var storage=multer.diskStorage({
+  destination:function (res,file,cb) {
+    cb(null,rutimage)
+  },
+  filename:function (res,file,cb) {
+    cb(null,Date.now()+file.originalname)
+  }
+})
+
+
 
 router.get('/api/contacto/ID/:idUsuario', function(req, res) {
   contacto.selectAll(req.params.idUsuario,function(error, resultados){
@@ -31,6 +45,18 @@ router.post('/api/contacto', function(req, res) {
       res.json({Mensaje: true})
     } else {
       res.json({"Mensaje": false});
+    }
+  });
+});
+
+router.post("/api/contacto/cargar", function(req, res){
+  console.log("\nEntrada al cargar \n")
+  var upload=multer({storage:storage}).single("urlIMG");
+  upload(req, res, function(error){
+    if(error){
+        res.json({urlIMG:"No se ha podido cargar la imagen", value: true})
+    }else{
+        res.json({urlIMG:rutimage, value: true})
     }
   });
 });

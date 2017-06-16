@@ -20,6 +20,12 @@ router.get("/api/usuario/:idUsuario", function(req, res){
     });
 });
 router.post("/api/usuario/", function(req,res){
+
+    var usu = [];
+     usuario.countUsers(req.body.nick, function(resultado){
+        usu = resultado;
+        console.log(usu)
+        if(usu[0].cuentaData == 1 && usu[0].cuentaData == 0){
     usuario.insert([req.body.nick, req.body.contrasena], function(error, resultado){
         if(error!== undefined){
             res.json({Mensaje: true})
@@ -27,6 +33,12 @@ router.post("/api/usuario/", function(req,res){
             res.json({Mensaje: false})
         }
     });
+    }else{
+        res.json({Mensaje: "Ya existe un usuario con su nick. Elija otro"})
+    }
+    });
+    
+    
 });
 router.put("/api/usuario/:idUsuario", function(req,res){
     if(req.params.idUsuario == req.body.idUsuario){
