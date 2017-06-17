@@ -36,7 +36,7 @@ router.get('/error', function(req, res, next) {
 router.get('/usuario', function(req, res, next) {
   if(req.cookies.UNI != null){
   var nombre = req.cookies.UNI;
-  res.render("usuario/index",{title:"Agenda", saludo: "¡Hola "+nombre+"!, aca tienes tus contactos", opciones: '<a href="/usuario/categoria">Categorias</a><a href="/usuario/cita">Citas</a><a href="" onclick="cerrarS()">Cerrar Sesion</a>'});
+  res.render("usuario/index",{title:"Agenda", saludo: "¡Hola "+nombre+"!, aca tienes tus contactos", opciones: '<a href="/usuario/categoria">Categorias</a><a href="/usuario/cita">Citas</a><a href="/usuario/tarea">Tarea</a><a href="#" data-toggle="modal" data-target="#editUser">Editar Mi Perfil</a><a href="" onclick="cerrarS()">Cerrar Sesion</a>'});
   }else{
     res.redirect("/")
   }
@@ -45,7 +45,7 @@ router.get('/usuario', function(req, res, next) {
 router.get('/usuario/categoria', function(req, res, next) {
   if(req.cookies.UNI != null){
   var nombre = req.cookies.UNI;
-  res.render("categoria/index",{title: "Categorias | Agenda", saludo: "¡Hola "+nombre+"!, aca tienes tus categorias", opciones: '<a href="/usuario/categoria">Categorias</a><a href="/usuario/cita">Citas</a><a href="" onclick="cerrarS()">Cerrar Sesion</a>' });
+  res.render("categoria/index",{title: "Categorias | Agenda", saludo: "¡Hola "+nombre+"!, aca tienes tus categorias", opciones: '<a href="/usuario/categoria">Categorias</a><a href="/usuario/cita">Citas</a><a href="/usuario/tarea">Tarea</a><a href="#" data-toggle="modal" data-target="#editUser">Editar Mi Perfil</a><a href="" onclick="cerrarS()">Cerrar Sesion</a>' });
   }else{
     res.redirect("/")
   }
@@ -54,7 +54,7 @@ router.get('/usuario/categoria', function(req, res, next) {
 router.get('/usuario/cita', function(req, res, next) {
   if(req.cookies.UNI != null){
   var nombre = req.cookies.UNI;
-  res.render("citas/index",{title: "Cita | Agenda", saludo: "¡Hola "+nombre+"!, aca tienes tus categorias", opciones: '<a href="/usuario/categoria">Categorias</a><a href="/usuario/cita">Citas</a><a href="" onclick="cerrarS()">Cerrar Sesion</a>'});
+  res.render("citas/index",{title: "Cita | Agenda", saludo: "¡Hola "+nombre+"!, aca tienes tus citas", opciones: '<a href="/usuario/categoria">Categorias</a><a href="/usuario/cita">Citas</a><a href="/usuario/tarea">Tarea</a><a href="#" data-toggle="modal" data-target="#editUser">Editar Mi Perfil</a><a href="" onclick="cerrarS()">Cerrar Sesion</a>'});
   }else{
     res.redirect("/")
   }
@@ -63,7 +63,7 @@ router.get('/usuario/cita', function(req, res, next) {
 router.get('/usuario/tarea', function(req, res, next) {
   if(req.cookies.UNI != null){
   var nombre = req.cookies.UNI;
-  res.render("tarea/index",{title: "Tarea | Agenda", saludo: "¡Hola "+nombre+"!, aca tienes tus categorias", opciones: '<a href="/usuario/categoria">Categorias</a><a href="/usuario/cita">Citas</a><a href="" onclick="cerrarS()">Cerrar Sesion</a>' });
+  res.render("tarea/index",{title: "Tarea | Agenda", saludo: "¡Hola "+nombre+"!, aca tienes tus tareas recientes", opciones: '<a href="/usuario/categoria">Categorias</a><a href="/usuario/cita">Citas</a><a href="/usuario/tarea">Tarea</a><a href="#" data-toggle="modal" data-target="#editUser">Editar Mi Perfil</a><a href="" onclick="cerrarS()">Cerrar Sesion</a>' });
   }else{
     res.redirect("/")
   }

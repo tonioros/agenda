@@ -1,4 +1,4 @@
-<div class="modal fade" id="eliminarCIMO" tabindex="-1" role="dialog" aria-labelledby="eliminarCAMO" aria-hidden="true">
+<div class="modal fade" id="eliminarTAMO" tabindex="-1" role="dialog" aria-labelledby="eliminarCAMO" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,11 +7,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form ng-submit="gestionCI(3)">
+      <form ng-submit="gestionTA(3)">
       <div class="modal-body">
-        <h4 class="text-center">¿Decea borrar esta cita?</h4>
-         <h5>ID: {{citaID}}</h5>
-         <h5>Fecha: {{fechaCI}} </h5>
+        <h4 class="text-center">¿Decea borrar esta tarea?</h4>
+        <h3 class="text-center" >ID: {{tareaID}}</h3>
+         <h5>Nombre: {{nombreTA}} </h5>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">Close</button>

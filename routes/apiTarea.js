@@ -53,8 +53,8 @@ router.post('/api/tarea', function(req, res) {
 router.put('/api/tarea/:idtareas', function(req, res) {
   var idtareas = req.params.idtareas;
   var data = [req.body.nombre ,req.body.descripcion ,req.body.idCategoria,req.body.idPrioridad ,req.body.fecha,req.body.idTarea]                                                                                             
-  console.log(idtareas+" "+req.body.idtarea+" "+(idtareas == req.body.idtarea))
-  if(idtareas == req.body.idtarea) {
+  console.log(idtareas+" "+req.body.idTarea+" "+(idtareas == req.body.idTarea))
+  if(idtareas == req.body.idTarea) {
     tareas.update(data, function(err, resultado) {
       if(resultado != null) {
         res.json({"Mensaje": false});

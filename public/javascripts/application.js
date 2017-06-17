@@ -296,41 +296,47 @@ app.controller("tareasController",["$scope", "$http", "$cookies", function($scop
             console.log($scope.categoriaList)
         });
     }
-     $scope.setCit = function(CATE){
-        $scope.citaID = CATE.idCita;
-        $scope.lugarCI = CATE.lugar;
-        $scope.descripcionCI = CATE.descripcion;
-        $scope.fechaCI= CATE.fecha
+     $scope.setTA = function(CATE){
+         console.log(CATE)
+        $scope.tareaID = CATE.idTarea
+        $scope.nombreTA = CATE.nombre
+        $scope.descripcionTA = CATE.descripcion
+        $scope.categoriaTA ={idCategoria:CATE.idCategoria} 
+        $scope.prioridadTA ={idPrioridad: CATE.idPrioridad}
+        $scope.fechaTA = CATE.fecha
      }
-    $scope.gestionCI = function(OperaID){
+
+    $scope.gestionTA = function(OperaID){
        
-        var url = "../../api/citas/"
+        var url = "../../api/tarea/"
         var method = "post"
        switch (OperaID) {
            case 1:
              var data = {
-                lugar: $scope.lugarCI,
-                descripcion: $scope.descripcionCI,
-                idContacto: ($scope.contactoCI.idContacto != null )?$scope.contactoCI.idContacto :0,
-                fecha: $scope.fechaCI,
-                idUsuario: $cookies.get("UDI")
+                nombre: $scope.nombreTA,
+                descripcion: $scope.descripcionTA,
+                idCategoria: $scope.categoriaTA.idCategoria,
+                idPrioridad: $scope.prioridadTA.idPrioridad,
+                idUsuario: $cookies.get("UDI"),
+                fecha: $scope.fechaTA
                 }
             break;
            case 2:
             var data = {
-                idCita: $scope.citaID,
-                lugar: $scope.lugarCI,
-                descripcion: $scope.descripcionCI,
-                idContacto: ($scope.contactoCI.idContacto != null )?$scope.contactoCI.idContacto :0,
-                fecha: $scope.fechaCI,
-                idUsuario: $cookies.get("UDI")
+                idTarea: $scope.tareaID,
+                nombre: $scope.nombreTA,
+                descripcion: $scope.descripcionTA,
+                idCategoria: $scope.categoriaTA.idCategoria,
+                idPrioridad: $scope.prioridadTA.idPrioridad,
+                idUsuario: $cookies.get("UDI"),
+                fecha: $scope.fechaTA
                 }
             method= 'put'
-            url = url+data.idCita
+            url = url+data.idTarea
             break;
            case 3:
             method= 'delete'
-            var data= {idCita: $scope.citaID}
+            var data= {idTarea: $scope.tareaID}
             break;
        }
         console.log(data)
@@ -354,13 +360,47 @@ app.controller("tareasController",["$scope", "$http", "$cookies", function($scop
     getData()
 }])
 
+app.controller("editUser",["$scope", "$http", "$cookies", function($scope, $http, $cookies){
+       
+     $scope.setTA = function(CATE){
+        $http.get("../../api/usuario/"+$cookies.get("UDI")).then(function(response){
+            $scope.nickUS = response.data[0].nick;
+            $scope.passUS = response.data[0].contrasena;
+            $scope.udiUS = response.data[0].idUsuario;
+        });
+     }
+
+    $scope.editarUS = function(){
+
+        var data ={
+            nick: $scope.nickUS,
+            contrasena: $scope.passUS,
+            idUsuario: $scope.udiUS
+        }
+        $http({
+            method: "put",
+            url: "../../api/usuario/"+data.idUsuario ,
+            data: data,
+            headers: {"Content-Type":"application/json"}
+        }).then(function(response){
+            console.log(response);
+            if(response.data.Mensaje == true){
+                $cookies.put("UDI",data.idUsuario)         
+                $cookies.put("UNI",data.nick)          
+              $("#closeeditUS").click();
+            }else{
+              $scope.error="Error en el API para uUsario"
+            }
+        })
+    }
+}])
+
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
 }
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
-
 function cerrarS(){
     var cookies = document.cookie.split(";");
     for (var i = 0; i < cookies.length; i++) {

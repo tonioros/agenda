@@ -73,8 +73,7 @@ Usuario.insert = function(data, callback) {
 
 Usuario.update = function(data, callback) {
   if(database) {
-    var sql = "UPDATE Usuario SET "
-    +"nick = ?, contrasena = ? WHERE idUsuario = ?";
+    var sql = "UPDATE usuario SET nick = ?, contrasena = ? WHERE idUsuario = ?";
     database.query(sql,
     [data.nick, data.contrasena, data.idUsuario],
     function(error, resultado) {

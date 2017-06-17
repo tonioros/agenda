@@ -56,7 +56,7 @@ tareas.insert = function(data, callback) {
 
 tareas.update = function(data, callback) {
   if(database) {
-    var sql = "UPDATE `tarea` SET `idTarea`=?,`nombre`=?,`descripcion`=?,`idCategoria`=?,`idPrioridad`=?,`fecha`=? WHERE idTarea = ? ;";
+    var sql = "UPDATE `tarea` SET `nombre`=?,`descripcion`=?,`idCategoria`=?,`idPrioridad`=?,`fecha`=? WHERE idTarea = ? ;";
     database.query(sql, data, function(error, resultado) {
       if(error) {
         throw error;
