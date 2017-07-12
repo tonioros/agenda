@@ -76,8 +76,8 @@ router.put('/api/contacto/:idContacto', function(req, res) {
   }
 });
 
-router.delete('/api/contacto/', function(req, res) {
-	var data = [req.body.idContacto, req.body.idUsuario];
+router.delete('/api/contacto/:idContacto/:idUsuario', function(req, res) {
+	var data = [req.params.idContacto, req.params.idUsuario];
     contacto.delete(data, function(error, resultado){
       if(resultado.Mensaje.length != 0) {
          res.json({Mensaje: true})

@@ -3,7 +3,7 @@ var contacto = {};
 
 contacto.selectAll = function(idUsuario,callback) {
   if(database) { 
-    database.query("SELECT con.* , cat.nombre AS nombreCategoria FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idCategoria WHERE con.idContacto IN (SELECT idContacto FROM detalleusuario WHERE idUsuario = ?);",
+    database.query("SELECT con.* , cat.nombre AS nombreCategoria FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idCategoria WHERE con.idContacto IN (SELECT idContacto FROM detalleusuario WHERE idUsuario = ?) ORDER BY idContacto DESC;",
     idUsuario, function(error, resultados) {
       if(error) {
         throw error;
@@ -16,7 +16,7 @@ contacto.selectAll = function(idUsuario,callback) {
 
 contacto.select = function(idContacto, callback) {
   if(database) {
-    var sql = "SELECT con.* , cat.nombre FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idContacto WHERE idContacto = ?";
+    var sql = "SELECT con.* , cat.nombre AS nombreCategoria FROM contacto con INNER JOIN categoria cat ON cat.idCategoria = con.idCategoria WHERE con.idContacto = ?";
     database.query(sql, idContacto,
     function(error, resultado) {
       if(error) {

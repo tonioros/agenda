@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
+//var index = require('./routes/index');
 var categoriaRoute = require('./routes/apiCategoria');
 var contactoRoute = require('./routes/apiContacto');
 var usuarioRoute = require('./routes/apiUsuario');
@@ -27,7 +27,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use(function(req, res, next){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+ // res.setheader("Access-Control-Allow-Method","POST, GET, OPTIONS")
+  next();
+})
+
+//app.use('/', index);
 app.use('/', categoriaRoute);
 app.use('/', contactoRoute);
 app.use('/', usuarioRoute);
