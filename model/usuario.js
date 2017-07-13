@@ -46,7 +46,7 @@ Usuario.countUsers = function(nick, callback) {
 
 Usuario.autenticar = function(data, callback) {
   if(database) {
-    var sql = "SELECT * FROM Usuario WHERE nick = ? AND contrasena = ?";
+    var sql = "SELECT * FROM usuario WHERE nick = ? AND contrasena = ?";
     database.query(sql,data,
     function(error, resultado) {
       if(error) {

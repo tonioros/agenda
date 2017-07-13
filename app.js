@@ -11,6 +11,7 @@ var contactoRoute = require('./routes/apiContacto');
 var usuarioRoute = require('./routes/apiUsuario');
 var citaRoute = require('./routes/apiCita');
 var tareaRoute = require('./routes/apiTarea');
+var auth = require("./routes/api/usuario.token")
 
 var app = express();
 
@@ -29,13 +30,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next){
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Origin, authorization, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
  // res.setheader("Access-Control-Allow-Method","POST, GET, OPTIONS")
   next();
 })
 
 //app.use('/', index);
+
+app.use('/',auth)
+
 app.use('/', categoriaRoute);
 app.use('/', contactoRoute);
 app.use('/', usuarioRoute);

@@ -1,6 +1,9 @@
 var router = require("express").Router();
-var usuario = require("../model/usuario.js");
+var usuario = require("../model/usuario.js"),
+services = require("../services")
 
+
+router.use(services.verificar)
 router.get("/api/usuario/", function(req,res){
     usuario.selectAll(function(error, resultado){
         if(error !== undefined){
