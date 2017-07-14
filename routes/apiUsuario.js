@@ -4,6 +4,7 @@ services = require("../services")
 
 
 router.use(services.verificar)
+
 router.get("/api/usuario/", function(req,res){
     usuario.selectAll(function(error, resultado){
         if(error !== undefined){

@@ -1,8 +1,11 @@
 var jwt = require('jsonwebtoken');
 var services = {};
 services.verificar = function(req, res, next) {
-	console.log("Funcion Verificar");
-	var token = services.getToken(req, res);
+	if(req.method == "OPTIONS"){
+		console.log("Method: "+req.method);
+		next()
+	}else{
+	var token = services.getToken(req, res, next);
 	jwt.verify(token, 'in6av', function(err, decoded) {
 		if(err) {
 			res.json({
@@ -16,10 +19,10 @@ services.verificar = function(req, res, next) {
 			next();
 		}
 	});
+	}
 }
 
-services.getToken = function(req, res) {
-	console.log(req.headers)
+services.getToken = function(req, res, next) {
 	var header = req.headers.authorization;
 	if (typeof header != 'undefined') {
 		var headerArray = header.split(" ");
@@ -35,7 +38,6 @@ services.getToken = function(req, res) {
 			});
 		}
 	} else {
-		console.log("No Existe la cabecera Authorization");
 		res.json({
 			estado: false,
 			mensaje: "No Existe la cabecera Authorization"

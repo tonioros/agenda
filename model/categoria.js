@@ -49,7 +49,7 @@ categoria.update = function(data, callback) {
       if(error) {
         throw error;
       } else {
-        callback(null, {"insertId": resultado.insertId});
+        callback(null, {"Mensaje": true});
       }
     });//Fin query
   }//Fin IF

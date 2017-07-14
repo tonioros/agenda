@@ -40,7 +40,7 @@ router.get('/api/prioridad',
 
 
 router.post('/api/tarea', function(req, res) {
-  var data = [req.body.nombre ,req.body.descripcion ,req.body.idCategoria,req.body.idPrioridad ,req.body.fecha ]
+  var data = [req.body.nombre ,req.body.descripcion ,req.body.idCategoria,req.body.idPrioridad ,req.body.fecha,req.body.idUsuario ]
   tareas.insert(data, function(err, resultado) {
     if(resultado && resultado.insertId > 0) {
        res.json({"Mensaje":true});

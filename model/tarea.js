@@ -43,7 +43,7 @@ tareas.select = function(idtareas, callback) {
 
 tareas.insert = function(data, callback) {
   if(database) {
-    database.query("INSERT INTO `tarea`(`nombre`, `descripcion`, `idCategoria`, `idPrioridad`, `fecha`) VALUES (?,?,?,?,?);", data,
+    database.query("INSERT INTO `tarea`(`nombre`, `descripcion`, `idCategoria`, `idPrioridad`, `fecha`,`idUsuario`) VALUES (?,?,?,?,?,?);", data,
     function(error, resultado) {
       if(error) {
         throw error;

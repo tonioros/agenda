@@ -57,9 +57,9 @@ router.put('/api/categoria/:idCategoria', function(req, res) {
   }
 });
 
-router.delete('/api/categoria/',
+router.delete('/api/categoria/:idCategoria',
   function(req, res) {
-    var idCategoria = req.body.idCategoria;
+    var idCategoria = req.params.idCategoria;
     categoria.delete(idCategoria,
       function(error, resultado){
       if(resultado && resultado.Mensaje == "Eliminado") {
