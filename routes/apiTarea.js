@@ -1,7 +1,8 @@
-var express = require('express');
 var tareas = require('../model/tarea');
-var router = express.Router();
+var router =  require('express').Router();
+var services = require("../services")
 
+router.use(services.verificar)
 router.get('/api/tarea/ID/:idUsuario', function(req, res) {
   tareas.selectAll(req.params.idUsuario,function(error, resultados){
     if(typeof resultados !== undefined) {
@@ -57,7 +58,7 @@ router.put('/api/tarea/:idtareas', function(req, res) {
   if(idtareas == req.body.idTarea) {
     tareas.update(data, function(err, resultado) {
       if(resultado != null) {
-        res.json({"Mensaje": false});
+        res.json({"Mensaje": true});
       } else {
         res.json({"Mensaje": false,value:"Error en SQL"});
       }
@@ -67,9 +68,9 @@ router.put('/api/tarea/:idtareas', function(req, res) {
   }
 });
 
-router.delete('/api/tarea/',
+router.delete('/api/tarea/:idTarea',
   function(req, res) {
-    var idtareas = req.body.idTarea;
+    var idtareas = req.params.idTarea;
     tareas.delete(idtareas,
       function(error, resultado){
       if(resultado.Mensaje == "Eliminado") {

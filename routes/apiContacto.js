@@ -4,6 +4,10 @@ var multer=require("multer"),
     path = require('path')
 const rutimage=path.join(__dirname,"..","public/images/contenido/")
 
+var services = require("../services")
+
+router.use(services.verificar)
+
 var storage=multer.diskStorage({
   destination:function (res,file,cb) {
     cb(null,rutimage)

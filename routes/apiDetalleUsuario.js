@@ -1,6 +1,8 @@
 var detalleUsuario = require("../model/detalleusuario")
 var router = require("express").Router();
+var services = require("../services")
 
+router.use(services.verificar)
 router.get('/api/detalleusuario/:idUsuario', function(req, res){
     detalleUsuario.select(req.params.idUsuario, function(error, resultado){
         if(error !== undefined){

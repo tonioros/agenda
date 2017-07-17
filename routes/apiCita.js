@@ -1,7 +1,9 @@
 var express = require('express');
 var citas = require('../model/citas');
 var router = express.Router();
+var services = require("../services")
 
+router.use(services.verificar)
 router.get('/api/citas/ID/:idUsuario', function(req, res) {
   citas.selectAll(req.params.idUsuario,function(error, resultados){
     if(typeof resultados !== undefined) {
