@@ -29,13 +29,13 @@ router.post("/api/usuario/", function(req,res){
         usu = resultado;
         console.log(usu)
         if(usu[0].cuentaData == 1 && usu[0].cuentaData == 0){
-    usuario.insert([req.body.nick, req.body.contrasena], function(error, resultado){
-        if(error!== undefined){
-            res.json({Mensaje: true})
-        }else{
-            res.json({Mensaje: false})
-        }
-    });
+            usuario.insert([req.body.nick, req.body.contrasena, req.body.filePath], function(error, resultado){
+                if(error!== undefined){
+                    res.json({Mensaje: true})
+                }else{
+                    res.json({Mensaje: false})
+                }
+            });
     }else{
         res.json({Mensaje: "Ya existe un usuario con su nick. Elija otro"})
     }

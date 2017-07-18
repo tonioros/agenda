@@ -60,7 +60,7 @@ Usuario.autenticar = function(data, callback) {
 
 Usuario.insert = function(data, callback) {
   if(database) {
-    database.query("INSERT INTO usuario(nick, contrasena) VALUES(?,?) ", data,
+    database.query("INSERT INTO usuario(nick, contrasena, filePath) VALUES(?,?,?) ", data,
     function(error, resultado) {
       if(error) {
         throw error;

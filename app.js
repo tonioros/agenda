@@ -11,6 +11,7 @@ var contactoRoute = require('./routes/apiContacto');
 var usuarioRoute = require('./routes/apiUsuario');
 var citaRoute = require('./routes/apiCita');
 var tareaRoute = require('./routes/apiTarea');
+var upload = require('./routes/upload.images');
 var auth = require("./routes/api/usuario.token")
 
 var app = express();
@@ -32,7 +33,6 @@ app.use(function(req, res, next){
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, authorization, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
- // res.setheader("Access-Control-Allow-Method","POST, GET, OPTIONS")
   next();
 })
 
@@ -45,6 +45,7 @@ app.use('/', contactoRoute);
 app.use('/', usuarioRoute);
 app.use('/', citaRoute);
 app.use('/', tareaRoute);
+app.use('/', upload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

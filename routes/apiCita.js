@@ -60,9 +60,9 @@ router.put('/api/citas/:idCitas', function(req, res) {
   }
 });
 
-router.delete('/api/citas/',
+router.delete('/api/citas/:idCita',
   function(req, res) {
-    var idcitas = req.body.idCita;
+    var idcitas = req.params.idCita;
     citas.delete(idcitas,
       function(error, resultado){
       if(resultado.Mensaje == "Eliminado") {
