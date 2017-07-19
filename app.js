@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //var index = require('./routes/index');
+var registrar = require("./routes/newUserApi")
 var categoriaRoute = require('./routes/apiCategoria');
 var contactoRoute = require('./routes/apiContacto');
 var usuarioRoute = require('./routes/apiUsuario');
@@ -39,6 +40,7 @@ app.use(function(req, res, next){
 //app.use('/', index);
 
 app.use('/',auth)
+app.use('/', registrar);
 
 app.use('/', categoriaRoute);
 app.use('/', contactoRoute);

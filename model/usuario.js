@@ -14,6 +14,19 @@ Usuario.selectAll = function(callback) {
   }//Fin IF
 }//FIN SelectAll
 
+Usuario.historial = function(idUsuario,callback) {
+  if(database) {
+    database.query("SELECT *, DATEDIFF(NOW(),fecha ) AS dias,DATE_FORMAT(fecha , '%H:%i:%s') AS horaFormat , DATE_FORMAT(fecha, '%d-%m-%Y') AS fechaFormat FROM historialagenda WHERE idUsuario = ? ORDER BY fecha DESC", idUsuario,
+    function(error, resultados) {
+      if(error) {
+        throw error;
+      } else {
+        callback(null, resultados);
+      }
+    });//Fin query
+  }//Fin IF
+}//FIN SelectAll
+
 Usuario.select = function(idUsuario, callback) {
   if(database) {
     var sql = "SELECT * FROM Usuario WHERE idUsuario = ?";

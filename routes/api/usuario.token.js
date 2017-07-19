@@ -7,7 +7,8 @@ router.post('/auth/', function(req, res) {
 	var data = [req.body.nick, req.body.contrasena]
 	usuario.autenticar(data, function(err, resultado) {
 		if(typeof resultado !== undefined) {
-		console.log(resultado)
+		if(resultado.length !=0 ){
+
 
 			var temp = {
 				idUsuario: resultado[0].idUsuario,
@@ -21,6 +22,9 @@ router.post('/auth/', function(req, res) {
 			resultado[0].mensaje = "Se otorgo el acceso";
 			resultado[0].token = token;
 			res.json(resultado[0]);
+		}else{
+			res.json({estado:false});
+		}
 			
 		} else {
 			res.json({
