@@ -43,10 +43,11 @@ router.post("/api/usuario/", function(req,res){
     
     
 });
+
 router.put("/api/usuario/:idUsuario", function(req,res){
     if(req.params.idUsuario == req.body.idUsuario){
 
-    usuario.update([req.body.nick, req.body.contrasena, req.body.idUsuario], function(error, resultado){
+    usuario.update([req.body.nick, req.body.contrasena,req.body.filePath, req.body.idUsuario], function(error, resultado){
         if(error!== undefined){
             res.json({Mensaje: true})
         }else{
@@ -66,15 +67,7 @@ router.delete("/api/usuario/:idUsuario", function(req,res){
         }
     });
 });
-router.put("/api/usuario/:idUsuario", function(req,res){
-       usuario.delete(req.body.idUsuario, function(error, resultado){
-        if(error!== undefined){
-            res.json({Mensaje: true})
-        }else{
-            res.json({Mensaje: false})
-        }
-    });
-});
+
 router.post("/api/usuario/autenticar", function(req,res) {
     usuario.autenticar([req.body.nick, req.body.contrasena], function(error, respuesta){
         if(respuesta.length != 0){

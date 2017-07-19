@@ -73,9 +73,8 @@ Usuario.insert = function(data, callback) {
 
 Usuario.update = function(data, callback) {
   if(database) {
-    var sql = "UPDATE usuario SET nick = ?, contrasena = ? WHERE idUsuario = ?";
-    database.query(sql,
-    [data.nick, data.contrasena, data.idUsuario],
+    var sql = "UPDATE usuario SET nick = ?, contrasena = ? , filePath = ? WHERE idUsuario = ?";
+    database.query(sql,data,
     function(error, resultado) {
       if(error) {
         throw error;
