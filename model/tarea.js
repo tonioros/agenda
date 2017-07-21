@@ -3,7 +3,7 @@ var tareas = {};
 
 tareas.selectAll = function(ID,callback) {
   if(database) {
-    database.query("SELECT cat.nombre AS nombreCategoria, pri.nombre AS nombrePrioridad , ta.* FROM tarea ta INNER JOIN categoria cat on cat.idCategoria = ta.idCategoria INNER JOIN prioridad pri ON pri.idPrioridad = ta.idPrioridad WHERE ta.idUsuario= ? ORDER BY pri.idPrioridad;",ID,
+    database.query("SELECT cat.nombre AS nombreCategoria, pri.nombre AS nombrePrioridad , DATE_FORMAT(ta.fecha , '%Y-%m-%d') AS fechaFormat , ta.* FROM tarea ta INNER JOIN categoria cat on cat.idCategoria = ta.idCategoria INNER JOIN prioridad pri ON pri.idPrioridad = ta.idPrioridad WHERE ta.idUsuario= ? ORDER BY pri.idPrioridad;",ID,
     function(error, resultados) {
       if(error) {
         throw error;

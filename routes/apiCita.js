@@ -1,7 +1,9 @@
 var express = require('express');
 var citas = require('../model/citas');
 var router = express.Router();
+var services = require("../services")
 
+router.use(services.verificar)
 router.get('/api/citas/ID/:idUsuario', function(req, res) {
   citas.selectAll(req.params.idUsuario,function(error, resultados){
     if(typeof resultados !== undefined) {
@@ -42,13 +44,13 @@ router.put('/api/citas/:idCitas', function(req, res) {
     req.body.lugar,
     req.body.descripcion,
     req.body.idContacto, 
+    req.body.fecha,
     req.body.idCita
-  ]                                                                                             
-  console.log(idcitas+" "+req.body.idCita+" "+(idcitas == req.body.idCita))
+  ]         
   if(idcitas == req.body.idCita) {
     citas.update(data, function(err, resultado) {
       if(resultado != null) {
-        res.json({"Mensaje": false});
+        res.json({"Mensaje": true});
       } else {
         res.json({"Mensaje": false,value:"Error en SQL"});
       }
@@ -58,9 +60,9 @@ router.put('/api/citas/:idCitas', function(req, res) {
   }
 });
 
-router.delete('/api/citas/',
+router.delete('/api/citas/:idCita',
   function(req, res) {
-    var idcitas = req.body.idCita;
+    var idcitas = req.params.idCita;
     citas.delete(idcitas,
       function(error, resultado){
       if(resultado.Mensaje == "Eliminado") {

@@ -14,6 +14,19 @@ Usuario.selectAll = function(callback) {
   }//Fin IF
 }//FIN SelectAll
 
+Usuario.historial = function(idUsuario,callback) {
+  if(database) {
+    database.query("SELECT *, DATEDIFF(NOW(),fecha ) AS dias,DATE_FORMAT(fecha , '%H:%i:%s') AS horaFormat , DATE_FORMAT(fecha, '%d-%m-%Y') AS fechaFormat FROM historialagenda WHERE idUsuario = ? ORDER BY fecha DESC", idUsuario,
+    function(error, resultados) {
+      if(error) {
+        throw error;
+      } else {
+        callback(null, resultados);
+      }
+    });//Fin query
+  }//Fin IF
+}//FIN SelectAll
+
 Usuario.select = function(idUsuario, callback) {
   if(database) {
     var sql = "SELECT * FROM Usuario WHERE idUsuario = ?";
@@ -60,7 +73,7 @@ Usuario.autenticar = function(data, callback) {
 
 Usuario.insert = function(data, callback) {
   if(database) {
-    database.query("INSERT INTO usuario(nick, contrasena) VALUES(?,?) ", data,
+    database.query("INSERT INTO usuario(nick, contrasena, filePath) VALUES(?,?,?) ", data,
     function(error, resultado) {
       if(error) {
         throw error;
@@ -73,9 +86,8 @@ Usuario.insert = function(data, callback) {
 
 Usuario.update = function(data, callback) {
   if(database) {
-    var sql = "UPDATE usuario SET nick = ?, contrasena = ? WHERE idUsuario = ?";
-    database.query(sql,
-    [data.nick, data.contrasena, data.idUsuario],
+    var sql = "UPDATE usuario SET nick = ?, contrasena = ? , filePath = ? WHERE idUsuario = ?";
+    database.query(sql,data,
     function(error, resultado) {
       if(error) {
         throw error;

@@ -1,7 +1,9 @@
 var express = require('express');
 var categoria = require('../model/categoria');
 var router = express.Router();
+var services = require("../services")
 
+router.use(services.verificar)
 router.get('/api/categoria/ID/:idUsuario', function(req, res) {
   categoria.selectAll(req.params.idUsuario,function(error, resultados){
     if(typeof resultados !== undefined) {

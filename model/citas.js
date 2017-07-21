@@ -3,7 +3,7 @@ var citas = {};
 
 citas.selectAll = function(ID,callback) {
   if(database) {
-    database.query("SELECT ci.*, con.nombre , con.apellido FROM cita ci INNER JOIN contacto con ON con.idContacto = ci.idContacto WHERE idUsuario= ?;",ID,
+    database.query("SELECT ci.*, con.nombre, DATE_FORMAT(ci.fecha , '%Y-%m-%d') AS fechaFormat, DATE_FORMAT(ci.fecha , '%H:%i:%s') AS horaFormat, DATEDIFF( DATE(ci.fecha) , DATE(NOW()) ) AS dias , con.apellido FROM cita ci INNER JOIN contacto con ON con.idContacto = ci.idContacto WHERE idUsuario= ?;",ID,
     function(error, resultados) {
       if(error) {
         throw error;
@@ -16,7 +16,7 @@ citas.selectAll = function(ID,callback) {
 
 citas.select = function(idcitas, callback) {
   if(database) {
-    var sql = "SELECT ci.*, con.nombre , con.apellido FROM cita ci INNER JOIN contacto con ON con.idContacto = ci.idContacto WHERE idCita = ?";
+    var sql = "SELECT ci.*, con.nombre, DATE_FORMAT(ci.fecha , '%Y-%m-%d') AS fechaFormat, DATE_FORMAT(ci.fecha , '%H:%i:%s') AS horaFormat, DATEDIFF( DATE(ci.fecha) , DATE(NOW()) ) AS dias , con.apellido FROM cita ci INNER JOIN contacto con ON con.idContacto = ci.idContacto WHERE idCita = ?";
     database.query(sql, idcitas,
     function(error, resultado) {
       if(error) {
@@ -43,12 +43,12 @@ citas.insert = function(data, callback) {
 
 citas.update = function(data, callback) {
   if(database) {
-    var sql = "UPDATE cita SET lugar = ?, descripcion = ? , idContacto = ? WHERE idCita = ?";
+    var sql = "UPDATE cita SET lugar = ?, descripcion = ? , idContacto = ?, fecha =?  WHERE idCita = ?";
     database.query(sql, data, function(error, resultado) {
       if(error) {
         throw error;
       } else {
-        callback(null, {"insertId": resultado.insertId});
+        callback(null, {"Mensaje": true});
       }
     });//Fin query
   }//Fin IF
